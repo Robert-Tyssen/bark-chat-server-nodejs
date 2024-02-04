@@ -76,8 +76,8 @@ describe('authMiddleware', () => {
     // Call middleware
     authMiddleware(mockReq as Request, mockRes as Response, mockNext);
 
-    // Expect the desired status code, userId added to body, and that next function is called
-    //expect(mockRes.status).toHaveBeenCalledWith(201);
+    // Expect no status code, userId added to body, and that next function is called
+    expect(mockRes.status).not.toHaveBeenCalled();
     expect(mockReq.body.userId).toEqual(userId);
     expect(mockNext).toHaveBeenCalled();
 
