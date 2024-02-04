@@ -1,13 +1,17 @@
-import { NextFunction, Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { NextFunction, Request, Response } from 'express';
 import { User } from '../models/User';
+import { createAccessToken } from '../utils/token_utils';
 
 interface SignupRequest {
   email: string,
   password: string,
 }
 
+// Attempt to create a new user with an email and password provided in the request body
+// Returns a 404 response if either the email or password are missing from the request
+// Returns a 404 response if another user already exists with the email address
+// Returns a 201 response with a signed JWT if the user is successfully created
 export const signup = async (req: Request, res: Response, next: NextFunction) => {
 
   // Parse email and password fromt the request body
@@ -39,15 +43,12 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
     });
     newUser.save();
 
-    // Generate JWT with the new userId
-    const secretKey = process.env.JWT_SECRET || '';
-    const tokenExpiresIn = process.env.JWT_EXPIRES_IN || '1h';
-    const token = jwt.sign({ userId: newUser._id }, secretKey, { expiresIn: tokenExpiresIn });
-
-    // Respond with success code and token
+    // Generate JWT with the new userId and respond with success code
+    const token = createAccessToken(newUser.id);
     return res.status(201).json({ success: true, token });
 
   } catch (error) {
+    // Log error and call error handling middleware
     console.error('Error during signup:', error);
     next(error);
   }
@@ -76,10 +77,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     }
 
     // If valid credentials, sign a new token and return success response with token
-    const secretKey = process.env.JWT_SECRET || '';
-    const tokenExpiresIn = process.env.JWT_EXPIRES_IN || '1h';
-    const token = jwt.sign({ userId: existingUser._id }, secretKey, { expiresIn: tokenExpiresIn });
-
+    const token = createAccessToken(existingUser.id);
     res.status(200).json({ token: token });
 
   } catch (error) {
