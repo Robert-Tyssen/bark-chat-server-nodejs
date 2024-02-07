@@ -2,19 +2,16 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { errorHandler } from './middleware/error_handler';
 import apiRouter from './routes/api_router';
-
-// Create express app
-const app = express();
+import { connectToMongoDb } from './db/db';
 
 // Setup environment variables
 const port = process.env.PORT || 4001;
-const db = process.env.MONGO_DB_URI || '';
 
 // Connect to MongoDB
-mongoose
-  .connect(db)
-  .then(() => console.log('Succesfully connected to MongoDB'))
-  .catch((err) => console.error('Error connecting to MongoDB', err));
+connectToMongoDb();
+
+// Create express app
+const app = express();
 
 // Setup pre-router middlewares
 app.use(express.json());
