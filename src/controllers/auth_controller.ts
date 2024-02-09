@@ -38,6 +38,7 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
     // Create new user and save to database
     const newUser = new User({
       email: email,
+      salt: salt,
       password: hashedPassword,
       username: 'Some Username',
     });

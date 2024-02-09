@@ -63,12 +63,12 @@ describe('authMiddleware', () => {
     // Mock request with no token provided
     const mockReq: Partial<Request> = {};
     mockReq.headers = { authorization: `Bearer ${mockToken}` };
-    mockReq.body = {};
 
     // Mock response with status and json fields
     const mockRes: Partial<Response> = {};
     mockRes.status = jest.fn().mockReturnValue(mockRes);
     mockRes.json = jest.fn().mockReturnValue(mockRes);
+    mockRes.locals = {};
 
     // Mock next function
     const mockNext: NextFunction = jest.fn();
@@ -78,7 +78,7 @@ describe('authMiddleware', () => {
 
     // Expect no status code, userId added to body, and that next function is called
     expect(mockRes.status).not.toHaveBeenCalled();
-    expect(mockReq.body.userId).toEqual(userId);
+    expect(mockRes.locals.userId).toEqual(userId);
     expect(mockNext).toHaveBeenCalled();
 
   });
