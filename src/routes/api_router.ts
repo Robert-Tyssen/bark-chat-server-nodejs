@@ -1,7 +1,7 @@
 import express from 'express';
 import { authMiddleware } from '../middleware/auth_middleware';
 import authRouter from './auth_router';
-import chatRoomRouter from './chat_room_router';
+import conversationRouter from './conversation_router';
 
 const router = express.Router();
 
@@ -9,6 +9,6 @@ const router = express.Router();
 router.use('/', authRouter);
 
 // Router for chat room requests
-router.use('/chat-room', authMiddleware, chatRoomRouter);
+router.use('/conversation', authMiddleware, conversationRouter);
 
 export default router;
