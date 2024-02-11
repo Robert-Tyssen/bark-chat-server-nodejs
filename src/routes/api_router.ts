@@ -2,13 +2,33 @@ import express from 'express';
 import { authMiddleware } from '../middleware/auth_middleware';
 import authRouter from './auth_router';
 import conversationRouter from './conversation_router';
+import messageRouter from './message_router';
 
-const router = express.Router();
+// Create a public and protected router
+const publicRouter = express.Router();
+const protectedRouter = express.Router();
 
-// Sub-router for authentication requests
-router.use('/', authRouter);
+// Create api router 
+const apiRouter = express.Router();
+apiRouter.use(publicRouter, protectedRouter)
 
-// Router for chat room requests
-router.use('/conversation', authMiddleware, conversationRouter);
+// *******************
+// Public routes
+// *******************
 
-export default router;
+// Authentication requests
+publicRouter.use('/', authRouter);
+
+// *******************
+// Protected routes
+// *******************
+
+// Use auth middleware to verify tokens before all protected routes
+protectedRouter.use(authMiddleware);
+
+// Routers for conversations and messaging
+protectedRouter.use('/conversation', conversationRouter);
+protectedRouter.use('/message', messageRouter)
+
+
+export default apiRouter;
