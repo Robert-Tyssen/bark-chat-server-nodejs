@@ -3,14 +3,19 @@
 This repository is still very much a work in progress and will be updated regularly. I'm working on this as a portfolio project to highlight my skills as a back-end developer
 and learn some new tools and technologies throughout the development cycle.
 
-This repository provides a simple Node.js server to expose API requests for core functionality such as authentication and messaging. It will take
-inspiration from popular real-time chat apps such as WhatsApp or Discord. 
+This repository is the backend implementation for a realtime chat application I am calling 'Bark' (I love dogs).
+The project will be built using the MERN stack, utilizing MongoDB as the persistence layer, and Node.js / Express to handle API requests.
+The application will draw inspiration from other popular chat applications (e.g. WhatsApp, Facebook Messenger), and implement
+basic functionality such as contact lists, direct / group messaging, and realtime updates to the client.
+
+Feel free to clone this repo and make modifications! You'll need a MongoDB connection - I recommend MongoDB Atlas, but on-premise installations work too.
+
 
 ## Built With
+- **Authentication**: JSON Web Tokens
 - **Runtime**: Node.js
 - **Routing and API**: Express
-- **Database**: Mongo DB Community Edition
-- **Authentication**: JSON Web Token
+- **Database**: Mongo DB Atlas
 
 ## Installation
 1. Clone the repository
@@ -21,10 +26,10 @@ git clone Robert-Tyssen/bark-chat-server-nodejs
 ```sh
 npm install
 ```
-3. Download and install MongoDB - Community Edition can be downloaded for free [here](https://www.mongodb.com/try/download/community)
+3. Set up a MongoDB database [here](https://www.mongodb.com/atlas/database)
 4. Create .env file from template example.env and provide MongoDB connection URL
 ```sh
-MONGO_DB_URI=mongodb://<your-connection-url>/bark-chat-db
+MONGO_DB_CONNECTION=mongodb://<your-connection-url>/bark-chat-db
 ```
 
 ## Roadmap
